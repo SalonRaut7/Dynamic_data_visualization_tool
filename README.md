@@ -90,3 +90,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [Streamlit](https://streamlit.io/) for the framework used to build the app.
 - [NumPy](https://numpy.org/), [Pandas](https://pandas.pydata.org/), [Matplotlib](https://matplotlib.org/), [Seaborn](https://seaborn.pydata.org/), [Plotly](https://plotly.com/), and [SciPy](https://scipy.org/) for the scientific computing libraries used.
+- [Scikit-learn](https://scikit-learn.org/) for implementing Linear Regression with performance metrics.
