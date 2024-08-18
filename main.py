@@ -7,6 +7,9 @@ import plotly.express as px
 import io
 from scipy.optimize import fsolve
 import plotly.graph_objects as go
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
 
 # Title of the app
 st.title("Dynamic Data Visualization Tool")
@@ -291,6 +294,48 @@ def upload_file():
                     st.plotly_chart(fig)
                 except Exception as e:
                     st.error(f"An error occurred while generating pair plot: {e}")
+        st.subheader("Predictive Analytics")
+        if st.checkbox("Perform Predictive Analytics"):
+            st.info("For simplicity, we'll implement a basic linear regression model.")
+            target = st.selectbox("Select the target column:", data.columns)
+            features = st.multiselect("Select feature columns:", data.columns.drop(target))
+    
+        if st.button("Train Model"):
+            if not features or not target:
+                st.error("Please select at least one feature and a target.")
+            else:
+            # Check if the selected features and target are numeric
+                non_numeric_cols = [col for col in features + [target] if not pd.api.types.is_numeric_dtype(data[col])]
+            
+                if non_numeric_cols:
+                    st.error(f"The following selected columns are non-numeric: {', '.join(non_numeric_cols)}. Linear regression can only be applied to numeric columns.")
+                else:
+                    try:
+                        X = data[features]
+                        y = data[target]
+                        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+                        
+                        model = LinearRegression()
+                        model.fit(X_train, y_train)
+                        
+                        y_pred = model.predict(X_test)
+                        
+                        st.write("Model Performance:")
+                        st.write(f"Mean Squared Error: {mean_squared_error(y_test, y_pred):.2f}")
+                        st.write(f"R-squared: {r2_score(y_test, y_pred):.2f}")
+                        
+                        # Plotting the true vs predicted values
+                        fig = plt.figure(figsize=(10, 6))
+                        plt.scatter(y_test, y_pred, color='blue')
+                        plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r', lw=2)
+                        plt.title("True vs Predicted Values")
+                        plt.xlabel("True Values")
+                        plt.ylabel("Predicted Values")
+                        plt.grid(True)
+                        st.pyplot(fig)
+                    except Exception as e:
+                        st.error(f"An error occurred during model training: {e}")
+
 
 def solve_equation():
     st.subheader("Solve Equation")
