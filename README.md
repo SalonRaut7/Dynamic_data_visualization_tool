@@ -21,6 +21,7 @@ Welcome to the Dynamic Data Visualization Tool! This Streamlit application allow
 - Perform data aggregation, filtering, and transformation.
 - Generate various visualizations such as scatter plots, line charts, bar charts, pie charts, histograms, box plots, and pair plots.
 - Download visualizations as images.
+- Use Linear Regression on the uploaded data.
 
 ### 4. Solve Equation
 - Enter mathematical equations to find their roots.
